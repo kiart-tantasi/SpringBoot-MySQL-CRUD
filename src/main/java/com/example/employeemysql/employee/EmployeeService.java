@@ -3,6 +3,7 @@ package com.example.employeemysql.employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -24,10 +25,30 @@ public class EmployeeService {
     }
 
     public void deleteEmployee(Long id) {
-
         Employee existingEmployee = employeeRepository.findById(id)
                         .orElseThrow(() -> new IllegalStateException("no employee with id " + id.toString() + " found"));
         employeeRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void updateEmployee(Long id, Employee employee) {
+        Employee employeeToUpdate = employeeRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("no employee with id " + id.toString() + " found"));
+
+        String newName = employee.getName();
+        if (newName != null && newName != employeeToUpdate.getName()) {
+            employeeToUpdate.setName(newName);
+        }
+
+        String newPosition = employee.getPosition();
+        if (newPosition != null && newPosition != employeeToUpdate.getPosition()) {
+            employeeToUpdate.setPosition(newPosition);
+        }
+
+        int newAge = employee.getAge();
+        if (newAge > 0 && newAge != employeeToUpdate.getAge()) {
+            employeeToUpdate.setAge(newAge);
+        }
     }
 
 }

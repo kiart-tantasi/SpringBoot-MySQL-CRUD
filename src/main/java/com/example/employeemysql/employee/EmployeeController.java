@@ -30,5 +30,10 @@ public class EmployeeController {
         employeeService.deleteEmployee(id);
     }
 
+    @PutMapping(path = "{id}")
+    public void updateEmployee(@PathVariable("id") Long id, @RequestBody Employee employee) {
+        employeeService.updateEmployee(id, employee);
+    }
+
 
 }
