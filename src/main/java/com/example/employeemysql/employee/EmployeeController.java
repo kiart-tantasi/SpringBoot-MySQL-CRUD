@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("employee")
+@RequestMapping("employees")
 public class EmployeeController {
     private final EmployeeService employeeService;
 
@@ -18,6 +18,11 @@ public class EmployeeController {
     @GetMapping
     public List<Employee> getEmployees() {
         return employeeService.getEmployees();
+    }
+
+    @GetMapping("{id}")
+    public Employee getEmployeeById(@PathVariable Long id) {
+        return employeeService.findEmployeeById(id);
     }
 
     @PostMapping

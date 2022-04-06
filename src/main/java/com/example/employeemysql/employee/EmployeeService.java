@@ -19,6 +19,12 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
+    public Employee findEmployeeById(Long id) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("employee with id " + id + " cannot be found."));
+        return employee;
+    }
+
     public void addEmployee(Employee employee) {
         if (employee.getName() == null || employee.getPosition() == null || employee.getAge() < 1) throw new IllegalStateException("Missing some information");
         employeeRepository.save(employee);
